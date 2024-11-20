@@ -8,4 +8,6 @@ WORKDIR /scripts
 COPY main.ps1 .
 
 # Execute the PowerShell script
-CMD ["pwsh", "main.ps1"]
+CMD ["pwsh", "pwd ; dir"]
+
+### End of File
