@@ -8,6 +8,5 @@ COPY main.ps1 .
 
 # Execute the PowerShell script
 CMD ["pwsh", "-Command", "dir"]
-CMD ["pwsh", "./main.ps1"]
 
 ### End of File
