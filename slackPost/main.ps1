@@ -1,12 +1,5 @@
 
-param (
-    [string]$exampleInput
-)
-
-
-dir env:
-
-Write-Output "Hello, $($exampleInput)"
+Write-Output "Hello, $($env:INPUT_EXAMPLEINPUT)"
 
 
 ### End of File
