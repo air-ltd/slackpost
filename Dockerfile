@@ -20,7 +20,7 @@ RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | s
 COPY main.ps1 .
 
 # Execute the PowerShell script
-CMD ["pwsh", "/main.ps1"]
-# CMD ["pwsh", "-command", "dir"]
+# CMD ["pwsh", "/main.ps1"]
+CMD ["pwsh", "-command", "dir", "/"]
 
 ### End of File
