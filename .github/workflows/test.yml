@@ -11,4 +11,5 @@ jobs:
       - name: Run custom PowerShell action
         uses: ./slackPost
         with:
-          exampleInput: 'Test'
+          content: 'Test'
+          slackurl: "test_url"
