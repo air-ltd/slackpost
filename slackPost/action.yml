@@ -6,6 +6,9 @@ inputs:
     required: true
   SLACKURL:
     description: 'This is full url for posting to slack'
+    required: true
+  TESTMODE:
+    description: 'if set this will just output the json message rather than post'
     required: false
 runs:
   using: 'docker'
