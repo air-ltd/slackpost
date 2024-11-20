@@ -71,7 +71,7 @@ function get-jobId() {
 
 ############### SCRIPT ###############
 
-$githubContext = $env:GITHUB_CONTEXT | ConvertFrom-Json
+$githubContext = $env:INPUT_GITHUB_CONTEXT | ConvertFrom-Json
 
 ### Get Job ID
 $jobId=get-jobId -runId $githubContext.run_id -repo $githubContext.repository
