@@ -11,7 +11,7 @@ jobs:
       - name: Run custom PowerShell action
         uses: ./slackPost
         with:
-          content: 'Test'
+          content: 'Test Content - I will need to do a test where this is really big'
           slackurl: "test_url"
           testmode: true
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

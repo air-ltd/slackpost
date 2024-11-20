@@ -30,7 +30,7 @@ get-childitem -recurse -file .
 #######################################################################
 $message=$env:INPUT_CONTENT
 $slackUrl=$env:INPUT_SLACKURL
-
+$env:GH_TOKEN=$env:INPUT_GH_TOKEN
 
 $DebugPreference='SilentlyContinue'
 
