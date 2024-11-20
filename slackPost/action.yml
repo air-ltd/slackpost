@@ -1,8 +1,8 @@
 name: 'My Custom PowerShell Action'
 description: 'A custom GitHub action written in PowerShell'
 inputs:
-  exampleInput:
-    description: 'An example input'
+  CONTENT:
+    description: 'This is the content to be included in the slack post'
     required: true
 runs:
   using: 'docker'
