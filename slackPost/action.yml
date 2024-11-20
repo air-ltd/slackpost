@@ -1,0 +1,9 @@
+name: 'My Custom PowerShell Action'
+description: 'A custom GitHub action written in PowerShell'
+inputs:
+  exampleInput:
+    description: 'An example input'
+    required: true
+runs:
+  using: 'pwsh'
+  main: 'main.ps1'
