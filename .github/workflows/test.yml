@@ -13,3 +13,4 @@ jobs:
         with:
           content: 'Test'
           slackurl: "test_url"
+          testmode: true

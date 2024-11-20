@@ -39,7 +39,7 @@ $urlTemplateLogs="https://github.com/{0}/actions/runs/{1}/job/{2}"
 
 ############### FUNCTIONS ###############
 
-. $PSScriptRoot/Send-SlackMessage.ps1
+. $PSScriptRoot/Send-SlackPost.ps1
 
 # Gets the job id using github command line
 function get-jobId() {
