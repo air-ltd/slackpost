@@ -89,9 +89,9 @@ $jsonMessage=write-SlackMessageBody -logUrl $url -logUrlHtml $url2 -ActionName $
 if ( $env:INPUT_TESTMODE ) {
     $jsonMessage
 } else {
-    write-output INPUT_TESTMODE is set
+    write-output "INPUT_TESTMODE is set"
     $jsonMessage
-    # send-SlackMessage -jsonMessage $jsonMessage -slackUrl $slackUrl
+    send-SlackMessage -jsonMessage $jsonMessage -slackUrl $slackUrl
 }
 
 
