@@ -17,10 +17,12 @@ RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | s
 
 
 # Copy your PowerShell script into the container
-COPY main.ps1 .
+COPY main.ps1 /
+COPY Send-SlackMessage.ps1 /
+
 
 # Execute the PowerShell script
-# CMD ["pwsh", "/main.ps1"]
-CMD ["pwsh", "-command", "dir", "/"]
+CMD ["pwsh", "/main.ps1"]
+# CMD ["pwsh", "-command", "dir", "/"]
 
 ### End of File
