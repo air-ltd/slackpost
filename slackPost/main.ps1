@@ -1,6 +1,7 @@
 
 $content=$env:INPUT_CONTENT
 
+dir env:
 
 Write-output "Header"
 Write-output "------------------------------------"

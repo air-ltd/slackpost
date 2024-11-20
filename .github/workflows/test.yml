@@ -14,3 +14,7 @@ jobs:
           content: 'Test'
           slackurl: "test_url"
           testmode: true
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+          RUNNER: ${{ runner.environment }}
+  
