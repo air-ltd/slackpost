@@ -8,7 +8,8 @@ Write-Output "$($content)"
 Write-output "------------------------------------"
 Write-output "Footer"
 
-
+pwd
+get-childitem -recurse -file .
 
 
 #######################################################################
