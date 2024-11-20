@@ -10,6 +10,12 @@ inputs:
   TESTMODE:
     description: 'if set this will just output the json message rather than post'
     required: false
+  GH_TOKEN:
+    description: 'used to get information about the github action using this'
+  GITHUB_CONTEXT:
+    description: 'used to get information about the github action using this'
+  RUNNER:
+    description: 'info about the runner'
 runs:
   using: 'docker'
   image: 'Dockerfile'
