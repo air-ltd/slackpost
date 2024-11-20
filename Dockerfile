@@ -21,6 +21,6 @@ COPY main.ps1 .
 
 # Execute the PowerShell script
 # CMD ["pwsh", "./main.ps1"]
-CMD ["pwsh", "-command", "pwd"]
+CMD ["pwsh", "-command", "dir"]
 
 ### End of File
