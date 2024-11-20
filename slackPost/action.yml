@@ -5,5 +5,5 @@ inputs:
     description: 'An example input'
     required: true
 runs:
-  using: 'pwsh'
-  main: 'main.ps1'
+  using: 'docker'
+  image: 'Dockerfile'
