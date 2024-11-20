@@ -3,6 +3,9 @@ param (
     [string]$exampleInput
 )
 
+
+dir env:
+
 Write-Output "Hello, $($exampleInput)"
 
 

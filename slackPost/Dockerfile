@@ -7,7 +7,6 @@ FROM mcr.microsoft.com/powershell:latest
 COPY main.ps1 .
 
 # Execute the PowerShell script
-# CMD ["pwsh", "-Command", "get-childitem", "-recurse", "-file"]
 CMD ["pwsh", "./slackPost/main.ps1"]
 
 ### End of File
