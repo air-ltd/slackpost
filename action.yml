@@ -21,7 +21,10 @@ runs:
   # image: 'Dockerfile'
   using: 'composite'
   steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
     - name: step 1
       shell: pwsh
       run: |
-        write-output "::add-mask::abc"
+        ./main.ps1
