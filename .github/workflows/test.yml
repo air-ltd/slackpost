@@ -17,8 +17,8 @@ jobs:
         run: |
           echo "no: $SECRET"
           echo "::add-mask::$SECRET"
-          echo "thesecret=$SECRET" >> "$GITHUB_OUTPUT"
-          echo "thesecret2=test" >> "$GITHUB_OUTPUT"
+          echo "thesecret=$SECRET" >> "$GITHUB_ENV"
+          echo "thesecret2=test" >> "$GITHUB_ENV"
           echo "yes: $SECRET"
 
       - name: test output
@@ -26,6 +26,8 @@ jobs:
         env:
           TEST: ${{ steps.secret1.output.thesecret }}
         run: |
+          echo "test: $thesecret"
+          echo "test: $thesecret2"
           echo "secret is: ${{ steps.secret1.output.thesecret }}"
           echo "secret2 is: ${{ steps.secret1.output.thesecret2 }}"
           echo "secret set as env is: $TEST"
