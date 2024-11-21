@@ -15,10 +15,11 @@ jobs:
         env:
           SECRET: "test_secret"
         run: |
+          echo "no"
           echo "::add-mask::$SECRET"
           echo "thesecret=$SECRET" >> "$GITHUB_OUTPUT"
           echo "thesecret2=test" >> "$GITHUB_OUTPUT"
-          echo "yes"
+          echo "yes: $SECRET"
 
       - name: test output
         shell: bash
