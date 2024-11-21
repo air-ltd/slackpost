@@ -26,7 +26,6 @@ runs:
 
     - name: secrets
       shell: bash
-      env:
       run: |
         echo "blah=${{ inputs.SLACKURL }}" >> $GITHUB_ENV
 
