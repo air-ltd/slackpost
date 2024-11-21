@@ -37,4 +37,5 @@ runs:
       shell: pwsh
       run: |
         echo "TEST: $env:INPUT_SLACKURL"
-        ./main.ps1
+        echo "TEST: ${{ inputs.GITHUB_CONTEXT }}"
+        # ./main.ps1
