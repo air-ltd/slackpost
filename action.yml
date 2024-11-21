@@ -23,10 +23,13 @@ runs:
   steps:
     - name: Checkout code
       uses: actions/checkout@v4
-    
+
+    - name: secrets
+      shell: bash
+      run: |
+        echo "::add-mask::${{ inputs.SLACKURL }}"
+
     - name: step 1
       shell: pwsh
-      env:
-        INPUT_SLACKURL: ${{ inputs.SLACKURL }}
       run: |
         ./main.ps1
