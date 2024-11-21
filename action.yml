@@ -30,9 +30,9 @@ runs:
         echo "${{ inputs.SLACKURL }}"
 
     - name: step 1
-      shell: pwsh
+      shell: pash
       run: |
         echo "TEST: ${{ inputs.SLACKURL }}"
-        echo "TEST2: $thesecret"
-        echo "TEST2: $thesecret2"
+        echo "TEST2: $env:thesecret"
+        echo "TEST3: $env:thesecret2"
         # ./main.ps1
