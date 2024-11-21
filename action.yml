@@ -30,7 +30,7 @@ runs:
         echo "${{ inputs.SLACKURL }}"
 
     - name: step 1
-      shell: pash
+      shell: bash
       run: |
         echo "TEST: ${{ inputs.SLACKURL }}"
         echo "TEST2: $env:thesecret"
