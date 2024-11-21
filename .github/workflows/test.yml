@@ -13,7 +13,7 @@ jobs:
         uses: air-ltd/slackpost@main
         with:
           content: 'Test Content - I will need to do a test where this is really big'
-          slackurl: "test_url"
+          slackurl: "::add-mask::test_url"
           testmode: true
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_CONTEXT: ${{ toJson(github) }}

@@ -27,7 +27,7 @@ runs:
     - name: secrets
       shell: bash
       run: |
-        echo "::add-mask::${{ inputs.SLACKURL }}"
+        echo "${{ inputs.SLACKURL }}"
 
     - name: step 1
       shell: pwsh
