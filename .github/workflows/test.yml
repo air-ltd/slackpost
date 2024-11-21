@@ -15,22 +15,19 @@ jobs:
         env:
           SECRET: "test_secret"
         run: |
-          echo "no: $SECRET"
           echo "::add-mask::$SECRET"
           echo "thesecret=$SECRET" >> "$GITHUB_ENV"
-          echo "thesecret2=test" >> "$GITHUB_ENV"
-          echo "yes: $SECRET"
 
-      - name: test output
-        shell: bash
-        env:
-          TEST: ${{ steps.secret1.output.thesecret }}
-        run: |
-          echo "test: $thesecret"
-          echo "test: $thesecret2"
-          echo "secret is: ${{ steps.secret1.output.thesecret }}"
-          echo "secret2 is: ${{ steps.secret1.output.thesecret2 }}"
-          echo "secret set as env is: $TEST"
+      # - name: test output
+      #   shell: bash
+      #   env:
+      #     TEST: ${{ steps.secret1.output.thesecret }}
+      #   run: |
+      #     echo "test: $thesecret"
+      #     echo "test: $thesecret2"
+      #     echo "secret is: ${{ steps.secret1.output.thesecret }}"
+      #     echo "secret2 is: ${{ steps.secret1.output.thesecret2 }}"
+      #     echo "secret set as env is: $TEST"
 
       - name: Run custom PowerShell action
         uses: air-ltd/slackpost@main

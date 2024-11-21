@@ -27,11 +27,10 @@ runs:
     - name: secrets
       shell: bash
       run: |
-        echo "blah=${{ inputs.SLACKURL }}" >> $GITHUB_ENV
+        echo "INPUT_SLACKURL=${{ inputs.SLACKURL }}" >> $GITHUB_ENV
 
     - name: step 1
       shell: pwsh
       run: |
-        echo "TEST: $env:blah"
-        echo "TEST2: $env:thesecret"
+        echo "TEST: $env:INPUT_SLACKURL"
         # ./main.ps1
