@@ -22,5 +22,6 @@ runs:
   using: 'composite'
   steps:
     - name: step 1
+      shell: pwsh
       run: |
-        echo "::add-mask::abc"
+        write-output "::add-mask::abc"
