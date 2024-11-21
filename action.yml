@@ -31,7 +31,6 @@ runs:
 
     - name: step 1
       shell: pwsh
-      env:
       run: |
         echo "TEST: ${{ inputs.SLACKURL }}"
         echo "TEST2: $env:thesecret"
