@@ -15,7 +15,7 @@ jobs:
           SECRET: "test_secret"
         run:
           echo "::add-mask::$SECRET"
-          echo "the-secret=$SECRET" >> "$GETHUB_OUTPUT"
+          echo "the-secret=$SECRET" >> "$GITHUB_OUTPUT"
 
 
       - name: Run custom PowerShell action
