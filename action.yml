@@ -17,5 +17,10 @@ inputs:
   RUNNER:
     description: 'info about the runner'
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
+  # using: 'docker'
+  # image: 'Dockerfile'
+  using: 'composite'
+  steps:
+    - name: step 1
+      run: |
+        echo "::add-mask::abc"
