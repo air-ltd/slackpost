@@ -9,12 +9,20 @@ jobs:
       # - name: Checkout code
       #   uses: actions/checkout@v4
 
+      - name: set var
+        env:
+          SECRET: "test_secret"
+        run:
+          echo "::add-mask::$SECRET"
+          echo "the-secret=$SECRET"
+
+
       - name: Run custom PowerShell action
         uses: air-ltd/slackpost@main
         with:
-          content: 'Test Content - I will need to do a test where this is really big'
-          slackurl: "::add-mask::test_url"
-          testmode: true
+          CONTENT: 'Test Content - I will need to do a test where this is really big'
+          SLACKURL: "::add-mask::test_url"
+          TESTMODE: true
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_CONTEXT: ${{ toJson(github) }}
           RUNNER: ${{ runner.environment }}
