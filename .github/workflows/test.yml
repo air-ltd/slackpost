@@ -15,7 +15,7 @@ jobs:
         env:
           SECRET: "test_secret"
         run: |
-          echo "no"
+          echo "no: $SECRET"
           echo "::add-mask::$SECRET"
           echo "thesecret=$SECRET" >> "$GITHUB_OUTPUT"
           echo "thesecret2=test" >> "$GITHUB_OUTPUT"
