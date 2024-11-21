@@ -36,7 +36,7 @@ jobs:
         uses: air-ltd/slackpost@main
         with:
           CONTENT: 'Test Content - I will need to do a test where this is really big'
-          SLACKURL: $thesecret
+          SLACKURL: $env:thesecret
           TESTMODE: true
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_CONTEXT: ${{ toJson(github) }}

@@ -32,9 +32,7 @@ runs:
     - name: step 1
       shell: pwsh
       env:
-        test: ${{ inputs.SLACKURL }}
       run: |
         echo "TEST: ${{ inputs.SLACKURL }}"
         echo "TEST2: $env:thesecret"
-        echo "TEST3: $env:test"
         # ./main.ps1
