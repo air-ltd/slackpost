@@ -31,7 +31,6 @@ runs:
         echo "INPUT_SLACKURL=${{ inputs.SLACKURL }}" >> $GITHUB_ENV
         echo "INPUT_TESTMODE=${{ inputs.TESTMODE }}" >> $GITHUB_ENV
         echo "INPUT_GH_TOKEN=${{ inputs.GH_TOKEN }}" >> $GITHUB_ENV
-        # echo 'INPUT_GITHUB_CONTEXT=${{ inputs.GITHUB_CONTEXT }}' >> $GITHUB_ENV
         echo "INPUT_RUNNER=${{ inputs.RUNNER }}" >> $GITHUB_ENV
 
     - name: step 1
