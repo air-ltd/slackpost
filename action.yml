@@ -30,7 +30,7 @@ runs:
         echo "${{ inputs.SLACKURL }}"
 
     - name: step 1
-      shell: bash
+      shell: pwsh
       run: |
         echo "TEST: ${{ inputs.SLACKURL }}"
         echo "TEST2: $env:thesecret"
