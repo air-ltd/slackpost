@@ -6,11 +6,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      # - name: Checkout code
+      #   uses: actions/checkout@v4
 
       - name: Run custom PowerShell action
-        uses: ./
+        uses: air-ltd/slackpost@main
         with:
           content: 'Test Content - I will need to do a test where this is really big'
           slackurl: "test_url"
