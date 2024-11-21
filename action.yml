@@ -33,5 +33,6 @@ runs:
       shell: pwsh
       run: |
         echo "TEST: ${{ inputs.SLACKURL }}"
-        echo "TEST: $thesecret"
+        echo "TEST2: $thesecret"
+        echo "TEST2: $thesecret2"
         # ./main.ps1
