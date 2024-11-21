@@ -18,9 +18,11 @@ jobs:
           echo "thesecret=$SECRET" >> "$GITHUB_OUTPUT"
 
       - name: test output
+        env:
+          TEST: ${{ steps.secret1.output.thesecret }}
         run: |
           echo "${{ steps.secret1.output.thesecret }}"
-
+          echo "$TEST"
 
       - name: Run custom PowerShell action
         uses: air-ltd/slackpost@main
