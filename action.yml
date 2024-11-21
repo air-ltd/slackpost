@@ -33,6 +33,6 @@ runs:
     - name: step 1
       shell: pwsh
       run: |
-        echo "TEST: $blah"
+        echo "TEST: $env:blah"
         echo "TEST2: $env:thesecret"
         # ./main.ps1
