@@ -37,5 +37,5 @@ runs:
       shell: pwsh
       run: |
         echo "TEST: $env:INPUT_SLACKURL"
-        echo 'TEST: ${{ inputs.GITHUB_CONTEXT }}'
+        echo '${{ inputs.GITHUB_CONTEXT }} | convertfrom-json'
         # ./main.ps1
