@@ -13,9 +13,13 @@ jobs:
         id: secret
         env:
           SECRET: "test_secret"
-        run:
+        run: |
           echo "::add-mask::$SECRET"
           echo "the-secret=$SECRET" >> "$GITHUB_OUTPUT"
+
+      - name: test output
+        run: |
+          echo "${{ steps.secret.output.the-secret }}"
 
 
       - name: Run custom PowerShell action
