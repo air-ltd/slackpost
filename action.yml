@@ -26,6 +26,7 @@ runs:
     
     - name: step 1
       shell: pwsh
+      env:
+        INPUT_SLACKURL: ${{ inputs.SLACKURL }}
       run: |
-        echo "::add-mask::${{ inputs.SLACKURL }}"
-        # ./main.ps1
+        ./main.ps1
