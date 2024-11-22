@@ -23,6 +23,9 @@ runs:
   steps:
     - name: Checkout code
       uses: actions/checkout@v4
+      with:
+        repository: air-ltd/slackpost
+        path: action-repo
 
     - name: secrets
       shell: bash
