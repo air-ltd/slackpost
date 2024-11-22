@@ -17,11 +17,12 @@ jobs:
         run: |
           echo "::add-mask::$SECRET"
           echo "thesecret=$SECRET" >> "$GITHUB_ENV"
+          echo "message=$(printf 'a%.0s' {1..3010})" >> "$GITHUB_ENV"
 
       - name: Run custom PowerShell action
         uses: air-ltd/slackpost@main
         with:
-          CONTENT: 'Test Content - I will need to do a test where this is really big'
+          CONTENT: $message
           SLACKURL: $thesecret
           TESTMODE: true
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
