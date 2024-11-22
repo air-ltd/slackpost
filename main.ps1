@@ -1,13 +1,13 @@
 
-$content=$env:INPUT_CONTENT
+# $content=$env:INPUT_CONTENT
 
-dir env:
+# dir env:
 
-Write-output "Header"
-Write-output "------------------------------------"
-Write-Output "$($content)"
-Write-output "------------------------------------"
-Write-output "Footer"
+# Write-output "Header"
+# Write-output "------------------------------------"
+# Write-Output "$($content)"
+# Write-output "------------------------------------"
+# Write-output "Footer"
 
 # pwd
 # get-childitem -recurse -file .
