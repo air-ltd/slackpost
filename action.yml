@@ -25,7 +25,7 @@ runs:
       uses: actions/checkout@v4
       with:
         repository: air-ltd/slackpost
-        path: /action-repo
+        path: ./action-repo
 
     - name: secrets
       shell: bash
@@ -41,4 +41,4 @@ runs:
       run: |
         echo "TEST: $env:INPUT_SLACKURL"
         $env:INPUT_GITHUB_CONTEXT='${{ inputs.GITHUB_CONTEXT }}'
-        /action-repo/main.ps1
+        ./action-repo/main.ps1
