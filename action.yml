@@ -1,9 +1,12 @@
 name: 'My Custom PowerShell Action'
 description: 'A custom GitHub action written in PowerShell'
 inputs:
+  CONTENT_FILE:
+    description: 'This is a fully qualified path to a file containing the content to post'
+    required: false
   CONTENT:
     description: 'This is the content to be included in the slack post'
-    required: true
+    required: false
   SLACKURL:
     description: 'This is full url for posting to slack'
     required: true
@@ -30,9 +33,7 @@ runs:
     - name: secrets
       shell: bash
       run: |
-        echo "INPUT_CONTENT=${{ inputs.CONTENT }}" >> $GITHUB_ENV
         echo "INPUT_SLACKURL=${{ inputs.SLACKURL }}" >> $GITHUB_ENV
-        echo "INPUT_TESTMODE=${{ inputs.TESTMODE }}" >> $GITHUB_ENV
         echo "INPUT_GH_TOKEN=${{ inputs.GH_TOKEN }}" >> $GITHUB_ENV
         echo "INPUT_RUNNER=${{ inputs.RUNNER }}" >> $GITHUB_ENV
 
@@ -41,4 +42,7 @@ runs:
       run: |
         echo "TEST: $env:INPUT_SLACKURL"
         $env:INPUT_GITHUB_CONTEXT='${{ inputs.GITHUB_CONTEXT }}'
+        $env:INPUT_CONTENT_FILE=(get-content ${{ inputs.CONTENT_FILE }})
+        $env:INPUT_CONTENT='${{ inputs.CONTENT }}'
+        $env:INPUT_TESTMODE='${{ inputs.TESTMODE }}'
         ./action-repo/main.ps1
