@@ -23,7 +23,7 @@ function send-SlackMessage() {
 function split-message() {
     param (
         $inputString,
-        $substringLength=2000
+        $substringLength=3000
     )
 
     # Initialize an empty array to hold the substrings
@@ -51,7 +51,7 @@ function write-SlackMessageBody() {
     )
 
 
-    $messageList=split-message -inputString $Message -substringLength 5
+    $messageList=split-message -inputString $Message
 
     $messageObject=@()
     $messageList | foreach {
