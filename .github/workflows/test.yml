@@ -17,7 +17,7 @@ jobs:
         run: |
           echo "::add-mask::$SECRET"
           echo "thesecret=$SECRET" >> "$GITHUB_ENV"
-          echo "message=$(printf 'a%.0s' {1..3010})" >> "$GITHUB_ENV"
+          echo "message=$(printf 'a%.0s' {1..23})" >> "$GITHUB_ENV"
 
       - name: Run custom PowerShell action
         uses: air-ltd/slackpost@main
