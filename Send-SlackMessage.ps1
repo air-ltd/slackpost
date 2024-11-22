@@ -20,6 +20,28 @@ function send-SlackMessage() {
 }
 
 
+function split-message() {
+    param (
+        $inputString,
+        $substringLength=2000
+    )
+
+    # Initialize an empty array to hold the substrings
+    $outputArray = @()
+
+    # Loop through the string in increments of 30 characters
+    for ($i = 0; $i -lt $inputString.Length; $i += $substringLength) {
+        # Extract a substring of 30 characters
+        $substring = $inputString.Substring($i, [Math]::Min($substringLength, $inputString.Length - $i))
+        # Add the substring to the array
+        $outputArray += $substring
+    }
+
+    # Output the array
+    return $outputArray
+
+}
+
 function write-SlackMessageBody() {
     param (
         $ActionName,
@@ -28,34 +50,49 @@ function write-SlackMessageBody() {
         $logUrlHtml
     )
 
-    $MessageLimit=$Message.Substring(0, [Math]::Min(3000, $Message.Length))
+
+    $messageList=split-message -inputString $Message -substringLength 5
+
+    $messageObject=@()
+    $messageList | foreach {
+        $messageObject+=@{
+                "type"="section"
+                "text"=@{
+                    "type"="mrkdwn"
+                    "text"="$($_)"
+                }
+
+        }
+    }
+
+
+    $MessageLimit=$Message.Substring(0, [Math]::Min(5, $Message.Length))
+
+    $blocks=$(
+        @{
+            "type"="section"
+            "text"=@{
+                "type"="mrkdwn"
+                "text"="$($ActionName)"
+            }
+        },
+        @{ "type"="divider"}
+    )
+
+    $blocks+=$messageObject
+    $blocks+=$(
+        @{ "type"="divider"},
+        @{
+            "type"="section"
+            "text"=@{
+                "type"="mrkdwn"
+                "text"="<$($logUrl)|Log Raw>`n<$($logUrlHtml)|Log HTML>"
+            }
+        }
+    )
 
     $BODY=@{
-        "blocks"=@(
-            @{
-                "type"="section"
-                "text"=@{
-                    "type"="mrkdwn"
-                    "text"="$($ActionName)"
-                }
-            },
-            @{ "type"="divider"},
-            @{
-                "type"="section"
-                "text"=@{
-                    "type"="mrkdwn"
-                    "text"="$($MessageLimit)"
-                }
-            },
-            @{ "type"="divider"},
-            @{
-                "type"="section"
-                "text"=@{
-                    "type"="mrkdwn"
-                    "text"="<$($logUrl)|Log Raw>`n<$($logUrlHtml)|Log HTML>"
-                }
-            }
-        )
+        "blocks"=$blocks
     }
 
     return ($BODY | convertto-json -Depth 100)

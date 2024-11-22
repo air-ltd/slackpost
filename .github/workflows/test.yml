@@ -24,7 +24,7 @@ jobs:
         with:
           CONTENT: $message
           SLACKURL: $thesecret
-          TESTMODE: true
+          # TESTMODE: true
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_CONTEXT: ${{ toJson(github) }}
           RUNNER: ${{ runner.environment }}
