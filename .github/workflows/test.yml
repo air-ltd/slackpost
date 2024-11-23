@@ -19,6 +19,7 @@ jobs:
           echo "slack_url=$SECRET" >> "$GITHUB_ENV"
           echo "message=$(printf 'a%.0s' {1..23})" >> "$GITHUB_ENV"
           echo "this is a file test" > log.txt
+          echo "this is a file test - line 2" >> log.txt
           echo "msg_file=$(readlink -f log.txt)" >> "$GITHUB_ENV"
 
       - name: Test Env
