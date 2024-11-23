@@ -22,7 +22,7 @@ jobs:
           echo "msg_file=$(readlink -f log.txt)" >> "$GITHUB_ENV"
 
       - name: Test Env
-        shell: pswh
+        shell: pwsh
         run: |
           echo "Env File: $($env:msg_file)"
 
