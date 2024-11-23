@@ -1,22 +1,7 @@
-
-# $content=$env:INPUT_CONTENT
-
-# dir env:
-
-# Write-output "Header"
-# Write-output "------------------------------------"
-# Write-Output "$($content)"
-# Write-output "------------------------------------"
-# Write-output "Footer"
-
-# pwd
-# get-childitem -recurse -file .
-
-
 #######################################################################
 #
-#   FileName:   post_completion_slack.ps1
-#   Author:     Jared Church <pjaredchurch@gmail.com>
+#   FileName:   main.ps1
+#   Author:     Jared Church
 #
 #   Purpose:
 #       Gets details of url to logs and posts a message on slack
@@ -28,15 +13,18 @@
 #       that.
 #
 #######################################################################
+# $DebugPreference='Continue'
+write-debug "Content File: $($env:INPUT_CONTENT_FILE)"
+write-debug "Content: $($env:INPUT_CONTENT)"
+$DebugPreference='SilentlyContinue'
+
 $message=$env:INPUT_CONTENT
 $slackUrl=$env:INPUT_SLACKURL
 $env:GH_TOKEN=$env:INPUT_GH_TOKEN
 
-$DebugPreference='Continue'
-write-debug "Content File: $($env:INPUT_CONTENT_FILE)"
-write-debug "Content: $($env:INPUT_CONTENT)"
-
-$DebugPreference='SilentlyContinue'
+if ( Test-File $env:INPUT_CONTENT_FILE ) {
+    $message+=(get-content $($env:INPUT_CONTENT_FILE))
+}
 
 ############### VARIABLES ###############
 $urlTemplateRawLogs="https://github.com/{0}/commit/{1}/checks/{2}/logs"
