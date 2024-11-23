@@ -20,7 +20,11 @@ jobs:
           echo "message=$(printf 'a%.0s' {1..23})" >> "$GITHUB_ENV"
           echo "this is a file test" > log.txt
           echo "msg_file=$(readlink -f log.txt)" >> "$GITHUB_ENV"
-          echo "MSG File: ${{ env.msg_file }}"
+
+      - name: Test Env
+        shell: pswh
+        run: |
+          echo "Env File: $($env:msg_file)"
 
       - name: Run custom PowerShell action
         uses: air-ltd/slackpost@4-add-support-for-passing-file-with-content-for-the-slack-post
