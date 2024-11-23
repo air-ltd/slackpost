@@ -45,5 +45,5 @@ runs:
         $env:INPUT_CONTENT_FILE=(get-content ${{ inputs.CONTENT_FILE }})
         $env:INPUT_CONTENT='${{ inputs.CONTENT }}'
         $env:INPUT_TESTMODE='${{ inputs.TESTMODE }}'
-        write-output $env:INPUT_CONTENT_FILE
+        write-output "Test InFile: $($env:INPUT_CONTENT_FILE)"
         ./action-repo/main.ps1

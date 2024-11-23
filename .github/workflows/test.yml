@@ -29,7 +29,7 @@ jobs:
       - name: Run custom PowerShell action
         uses: air-ltd/slackpost@4-add-support-for-passing-file-with-content-for-the-slack-post
         with:
-          CONTENT_FILE: ${{ env.msg_File }}
+          CONTENT_FILE: ${{ env.msg_file }}
           CONTENT: ${{ env.message }}
           SLACKURL: ${{ env.thesecret }}
           TESTMODE: true
