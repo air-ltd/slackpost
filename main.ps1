@@ -22,13 +22,14 @@ $message="$($env:INPUT_CONTENT)"
 $slackUrl=$env:INPUT_SLACKURL
 $env:GH_TOKEN=$env:INPUT_GH_TOKEN
 
+dir $env:INPUT_CONTENT_FILE
 if ( Test-Path $env:INPUT_CONTENT_FILE ) {
     $message+="`n"
     $message+=(get-content -raw $($env:INPUT_CONTENT_FILE))
 }
-$DebugPreference='Continue'
-write-debug "Final Message: $($message)"
-$DebugPreference='SilentlyContinue'
+
+
+write-debug "Final Message: $($message)" -Debug
 
 ############### VARIABLES ###############
 $urlTemplateRawLogs="https://github.com/{0}/commit/{1}/checks/{2}/logs"
