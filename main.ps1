@@ -22,7 +22,7 @@ $message=$env:INPUT_CONTENT
 $slackUrl=$env:INPUT_SLACKURL
 $env:GH_TOKEN=$env:INPUT_GH_TOKEN
 
-if ( Test-File $env:INPUT_CONTENT_FILE ) {
+if ( Test-Path $env:INPUT_CONTENT_FILE ) {
     $message+=(get-content $($env:INPUT_CONTENT_FILE))
 }
 
