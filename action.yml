@@ -45,5 +45,5 @@ runs:
       run: |
         echo "TEST: $env:INPUT_SLACKURL"
         write-output "Test InFile: $($env:INPUT_CONTENT_FILE)"
-        $env:INPUT_GITHUB_CONTEXT=(${{ inputs.GITHUB_CONTEXT }} | convertfrom-json)
+        $env:INPUT_GITHUB_CONTEXT='${{ inputs.GITHUB_CONTEXT }}'
         ./action-repo/main.ps1
