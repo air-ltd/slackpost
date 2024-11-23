@@ -13,10 +13,10 @@
 #       that.
 #
 #######################################################################
-# $DebugPreference='Continue'
+# $DebugPreference='SilentlyContinue'
+$DebugPreference='Continue'
 write-debug "Content File: $($env:INPUT_CONTENT_FILE)"
 write-debug "Content: $($env:INPUT_CONTENT)"
-$DebugPreference='SilentlyContinue'
 
 $message="$($env:INPUT_CONTENT)"
 $slackUrl=$env:INPUT_SLACKURL
