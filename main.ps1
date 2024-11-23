@@ -26,8 +26,10 @@ if ( Test-Path $env:INPUT_CONTENT_FILE ) {
     $message+="`n"
     $message+=(get-content -raw $($env:INPUT_CONTENT_FILE))
 }
+$DebugPreference='Continue'
+write-debug "Final Message: $($message)"
+$DebugPreference='SilentlyContinue'
 
-write-debug $message
 ############### VARIABLES ###############
 $urlTemplateRawLogs="https://github.com/{0}/commit/{1}/checks/{2}/logs"
 $urlTemplateLogs="https://github.com/{0}/actions/runs/{1}/job/{2}"
