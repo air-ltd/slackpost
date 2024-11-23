@@ -18,7 +18,7 @@ write-debug "Content File: $($env:INPUT_CONTENT_FILE)"
 write-debug "Content: $($env:INPUT_CONTENT)"
 $DebugPreference='SilentlyContinue'
 
-$message=$env:INPUT_CONTENT
+$message="$($env:INPUT_CONTENT)"
 $slackUrl=$env:INPUT_SLACKURL
 $env:GH_TOKEN=$env:INPUT_GH_TOKEN
 
@@ -27,6 +27,7 @@ if ( Test-Path $env:INPUT_CONTENT_FILE ) {
     $message+=(get-content -raw $($env:INPUT_CONTENT_FILE))
 }
 
+write-debug $message
 ############### VARIABLES ###############
 $urlTemplateRawLogs="https://github.com/{0}/commit/{1}/checks/{2}/logs"
 $urlTemplateLogs="https://github.com/{0}/actions/runs/{1}/job/{2}"
