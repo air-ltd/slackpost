@@ -16,7 +16,7 @@ jobs:
           SECRET: "test_secret"
         run: |
           echo "::add-mask::$SECRET"
-          echo "thesecret=$SECRET" >> "$GITHUB_ENV"
+          echo "slack_url=$SECRET" >> "$GITHUB_ENV"
           echo "message=$(printf 'a%.0s' {1..23})" >> "$GITHUB_ENV"
           echo "this is a file test" > log.txt
           echo "msg_file=$(readlink -f log.txt)" >> "$GITHUB_ENV"
@@ -31,8 +31,8 @@ jobs:
         with:
           CONTENT_FILE: ${{ env.msg_file }}
           CONTENT: ${{ env.message }}
-          SLACKURL: ${{ env.thesecret }}
-          TESTMODE: true
+          SLACKURL: ${{ env.slack_url }}
+          # TESTMODE: true
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_CONTEXT: ${{ toJson(github) }}
           RUNNER: ${{ runner.environment }}
@@ -41,18 +41,18 @@ jobs:
         uses: air-ltd/slackpost@4-add-support-for-passing-file-with-content-for-the-slack-post
         with:
           CONTENT: ${{ env.message }}
-          SLACKURL: ${{ env.thesecret }}
-          TESTMODE: true
+          SLACKURL: ${{ env.slack_url }}
+          # TESTMODE: true
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_CONTEXT: ${{ toJson(github) }}
           RUNNER: ${{ runner.environment }}
   
-      - name: Run custom PowerShell action
+      - name: Run custom PowerShell action 3
         uses: air-ltd/slackpost@4-add-support-for-passing-file-with-content-for-the-slack-post
         with:
           CONTENT_FILE: ${{ env.msg_file }}
-          SLACKURL: ${{ env.thesecret }}
-          TESTMODE: true
+          SLACKURL: ${{ env.slack_url }}
+          # TESTMODE: true
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_CONTEXT: ${{ toJson(github) }}
           RUNNER: ${{ runner.environment }}
