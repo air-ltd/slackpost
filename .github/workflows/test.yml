@@ -18,12 +18,15 @@ jobs:
           echo "::add-mask::$SECRET"
           echo "thesecret=$SECRET" >> "$GITHUB_ENV"
           echo "message=$(printf 'a%.0s' {1..23})" >> "$GITHUB_ENV"
+          echo "this is a file test" > log.txt
+          echo "msg_file=$(readlink -f log.txt)" >> "$GITHUB_ENV"
 
       - name: Run custom PowerShell action
-        uses: air-ltd/slackpost@main
+        uses: air-ltd/slackpost@4-add-support-for-passing-file-with-content-for-the-slack-post
         with:
-          CONTENT: $message
-          SLACKURL: $thesecret
+          CONTENT_FILE: ${{ env.msg_File }}
+          CONTENT: ${{ env.message }}
+          SLACKURL: ${{ env.thesecret }}
           TESTMODE: true
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_CONTEXT: ${{ toJson(github) }}
