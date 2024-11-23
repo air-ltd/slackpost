@@ -37,3 +37,23 @@ jobs:
           GITHUB_CONTEXT: ${{ toJson(github) }}
           RUNNER: ${{ runner.environment }}
   
+      - name: Run custom PowerShell action 2
+        uses: air-ltd/slackpost@4-add-support-for-passing-file-with-content-for-the-slack-post
+        with:
+          CONTENT: ${{ env.message }}
+          SLACKURL: ${{ env.thesecret }}
+          TESTMODE: true
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+          RUNNER: ${{ runner.environment }}
+  
+      - name: Run custom PowerShell action
+        uses: air-ltd/slackpost@4-add-support-for-passing-file-with-content-for-the-slack-post
+        with:
+          CONTENT_FILE: ${{ env.msg_file }}
+          SLACKURL: ${{ env.thesecret }}
+          TESTMODE: true
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+          RUNNER: ${{ runner.environment }}
+  
