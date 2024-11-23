@@ -24,7 +24,7 @@ $env:GH_TOKEN=$env:INPUT_GH_TOKEN
 
 if ( Test-Path $env:INPUT_CONTENT_FILE ) {
     $message+="`n"
-    $message+=(get-content $($env:INPUT_CONTENT_FILE))
+    $message+=(get-content -raw $($env:INPUT_CONTENT_FILE))
 }
 
 ############### VARIABLES ###############
