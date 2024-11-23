@@ -24,7 +24,9 @@ $env:GH_TOKEN=$env:INPUT_GH_TOKEN
 
 dir $env:INPUT_CONTENT_FILE
 if ( Test-Path $env:INPUT_CONTENT_FILE ) {
-    $message+="`n"
+    if ( $message -ne "" ) {
+        $message+="`n"
+    }
     $message+=(get-content -raw $($env:INPUT_CONTENT_FILE))
 }
 
