@@ -42,7 +42,7 @@ runs:
       run: |
         echo "TEST: $env:INPUT_SLACKURL"
         $env:INPUT_GITHUB_CONTEXT='${{ inputs.GITHUB_CONTEXT }}'
-        $env:INPUT_CONTENT_FILE=(get-content ${{ inputs.CONTENT_FILE }})
+        $env:INPUT_CONTENT_FILE=${{ inputs.CONTENT_FILE }}
         $env:INPUT_CONTENT='${{ inputs.CONTENT }}'
         $env:INPUT_TESTMODE='${{ inputs.TESTMODE }}'
         write-output "Test InFile: $($env:INPUT_CONTENT_FILE)"
