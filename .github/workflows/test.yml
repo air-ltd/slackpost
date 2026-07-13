@@ -57,4 +57,18 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_CONTEXT: ${{ toJson(github) }}
           RUNNER: ${{ runner.environment }}
-  
+
+      - name: Build fake github context with single quotes
+        shell: bash
+        run: |
+          echo 'FAKE_CONTEXT={"event_name":"pull_request","job":"ETL","ref":"refs/heads/main","sha":"abc123","repository":"air-ltd/dwh","repository_owner":"air-ltd","run_id":"12345","run_number":"1","retention_days":"90","actor":"test-user","triggering_actor":"test-user","workflow":"ETL Action","workspace":"/tmp","action":"__air-ltd_slackpost","event":{"action":"closed","pull_request":{"body":"Refactors macros from `if target.type == '\''clickhouse'\''` to adapter.dispatch()","number":99,"title":"Test PR","state":"closed","merged":true}},"repository_id":"12345678"}' >> "$GITHUB_ENV"
+
+      - name: Run custom PowerShell action (single-quote context test)
+        uses: air-ltd/slackpost@v4
+        with:
+          CONTENT: "Single-quote context test"
+          SLACKURL: ${{ env.slack_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_CONTEXT: ${{ env.FAKE_CONTEXT }}
+          RUNNER: ${{ runner.environment }}
+          TESTMODE: true
