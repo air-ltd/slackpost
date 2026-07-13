@@ -1,3 +1,4 @@
+# yaml-language-server: ignore
 name: Regression Test
 on:
   push:
