@@ -99,6 +99,7 @@ jobs:
           if [ "$failed" -gt 0 ]; then summary="${summary} / ❌ ${failed} failed"; fi
           if [ "$skipped" -gt 0 ]; then summary="${summary} / ⏭ ${skipped} skipped"; fi
           summary="${summary} (of ${total})"
+          echo "Workflow Summary: $summary"
           echo "CONTENT=${summary}" >> "$GITHUB_ENV"
 
       - name: Send summary to Slack
