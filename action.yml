@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://json.schemastore.org/action.json
 name: 'My Custom PowerShell Action'
 description: 'A custom GitHub action written in PowerShell'
 inputs:
@@ -13,10 +14,6 @@ inputs:
   TESTMODE:
     description: 'if set this will just output the json message rather than post'
     required: false
-  GH_TOKEN:
-    description: 'used to get information about the github action using this'
-  GITHUB_CONTEXT:
-    description: 'used to get information about the github action using this'
   RUNNER:
     description: 'info about the runner'
 runs:
@@ -33,10 +30,9 @@ runs:
     - name: secrets
       shell: bash
       env:
-        GH_CTX: ${{ inputs.GITHUB_CONTEXT }}
+        GH_CTX: ${{ toJson(github) }}
       run: |
         echo "INPUT_SLACKURL=${{ inputs.SLACKURL }}" >> $GITHUB_ENV
-        echo "INPUT_GH_TOKEN=${{ inputs.GH_TOKEN }}" >> $GITHUB_ENV
         echo "INPUT_RUNNER=${{ inputs.RUNNER }}" >> $GITHUB_ENV
         echo "INPUT_CONTENT_FILE=${{ inputs.CONTENT_FILE }}" >> $GITHUB_ENV
         echo "INPUT_CONTENT=${{ inputs.CONTENT }}" >> $GITHUB_ENV

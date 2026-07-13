@@ -39,55 +39,40 @@ jobs:
 
       - name: Run custom PowerShell action
         uses: air-ltd/slackpost@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           CONTENT_FILE: ${{ env.msg_file }}
           CONTENT: ${{ env.message }}
           SLACKURL: ${{ env.SLACK_POST_URL }}
           TESTMODE: true
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_CONTEXT: ${{ toJson(github) }}
           RUNNER: ${{ runner.environment }}
   
       - name: Run custom PowerShell action 2
         uses: air-ltd/slackpost@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           CONTENT: ${{ env.message }}
           SLACKURL: ${{ env.SLACK_POST_URL }}
           TESTMODE: true
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_CONTEXT: ${{ toJson(github) }}
           RUNNER: ${{ runner.environment }}
   
       - name: Run custom PowerShell action 3
         uses: air-ltd/slackpost@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           CONTENT_FILE: ${{ env.msg_file }}
           SLACKURL: ${{ env.SLACK_POST_URL }}
           TESTMODE: true
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_CONTEXT: ${{ toJson(github) }}
           RUNNER: ${{ runner.environment }}
-
-      - name: Build fake github context with single quotes
-        shell: bash
-        run: |
-          echo 'FAKE_CONTEXT={"event_name":"pull_request","job":"ETL","ref":"refs/heads/main","sha":"${{ github.sha }}","repository":"${{ github.repository }}","repository_owner":"${{ github.repository_owner }}","run_id":"${{ github.run_id }}","run_number":"${{ github.run_number }}","retention_days":"90","actor":"test-user","triggering_actor":"test-user","workflow":"ETL Action","workspace":"/tmp","action":"__air-ltd_slackpost","event":{"action":"closed","pull_request":{"body":"Refactors macros from `if target.type == '\''clickhouse'\''` to adapter.dispatch()","number":99,"title":"Test PR","state":"closed","merged":true}},"repository_id":"${{ github.repository_id }}"}' >> "$GITHUB_ENV"
-
-      - name: Run custom PowerShell action (single-quote context test)
-        uses: air-ltd/slackpost@main
-        with:
-          CONTENT: "Single-quote context test"
-          SLACKURL: ${{ env.SLACK_POST_URL }}
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_CONTEXT: ${{ env.FAKE_CONTEXT }}
-          RUNNER: ${{ runner.environment }}
-          TESTMODE: true
 
       - name: Post workflow summary to Slack
         if: always()
         shell: bash
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           jobs_json=$(gh api -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" \
             "/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/jobs")
@@ -105,9 +90,9 @@ jobs:
       - name: Send summary to Slack
         if: always()
         uses: air-ltd/slackpost@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           CONTENT: ${{ env.CONTENT }}
           SLACKURL: ${{ env.SLACK_POST_URL }}
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_CONTEXT: ${{ toJson(github) }}
           RUNNER: ${{ runner.environment }}

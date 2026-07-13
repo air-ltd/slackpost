@@ -20,7 +20,6 @@ write-debug "Content: $($env:INPUT_CONTENT)"
 
 $message="$($env:INPUT_CONTENT)"
 $slackUrl=$env:INPUT_SLACKURL
-$env:GH_TOKEN=$env:INPUT_GH_TOKEN
 
 dir $env:INPUT_CONTENT_FILE
 if ( Test-Path $env:INPUT_CONTENT_FILE ) {
