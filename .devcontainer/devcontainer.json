@@ -1,5 +1,8 @@
 {
 	"image": "ghcr.io/jaredchurch/base:v3",
+	"features": {
+		"./features/opencode": {}
+	},
 
 	// "postCreateCommand": "/bin/sh -c ./.devcontainer/setup.sh",
     "containerEnv": {
