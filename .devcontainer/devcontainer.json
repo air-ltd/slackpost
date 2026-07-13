@@ -1,5 +1,5 @@
 {
-	"image": "mcr.microsoft.com/devcontainers/universal:2",
+	"image": "ghcr.io/jaredchurch/base:v3",
 
 	"postCreateCommand": "/bin/sh -c ./.devcontainer/setup.sh",
     "containerEnv": {
@@ -13,9 +13,6 @@
 		"--dns", "172.17.0.1",
 		"--dns", "208.67.222.123"
 	],
-	"features": {
-		"ghcr.io/devcontainers/features/powershell:1": {}
-	},
 	"customizations": {
 		"vscode": {
 			"extensions": [
