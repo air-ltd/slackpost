@@ -94,7 +94,7 @@ jobs:
           passed=$(echo "$jobs_json" | jq '[.jobs[].steps[].conclusion] | map(select(. == "success")) | length')
           failed=$(echo "$jobs_json" | jq '[.jobs[].steps[].conclusion] | map(select(. == "failure")) | length')
           skipped=$(echo "$jobs_json" | jq '[.jobs[].steps[].conclusion] | map(select(. == "skipped")) | length')
-          total=$(echo "$jobs_json" | jq '[.jobs[].steps[]] | length')
+          total=$(echo "$jobs_json" | jq '[.jobs[].steps[].conclusion] | map(select(. != null)) | length')
           summary="✅ ${passed} passed"
           if [ "$failed" -gt 0 ]; then summary="${summary} / ❌ ${failed} failed"; fi
           if [ "$skipped" -gt 0 ]; then summary="${summary} / ⏭ ${skipped} skipped"; fi
