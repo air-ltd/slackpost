@@ -36,7 +36,7 @@ jobs:
         echo 'FAKE_CONTEXT={"event_name":"pull_request","job":"ETL","ref":"refs/heads/main","sha":"abc123","repository":"air-ltd/dwh","repository_owner":"air-ltd","run_id":"12345","run_number":"1","retention_days":"90","actor":"test-user","triggering_actor":"test-user","workflow":"ETL Action","workspace":"/tmp","action":"__air-ltd_slackpost","event":{"action":"closed","pull_request":{"body":"Refactors macros from `if target.type == '\''clickhouse'\''` to adapter.dispatch()","number":99,"title":"Test PR","state":"closed","merged":true}},"repository_id":"12345678"}' >> "$GITHUB_ENV"
 
     - name: Slack Post (reproduces the error)
-      uses: air-ltd/slackpost@4ba43b24b7b071ea4c2063ba39a34adb527e35b0 # v4
+      uses: air-ltd/slackpost@main
       with:
         CONTENT: "Debug test — should fail due to single quotes in GITHUB_CONTEXT"
         SLACKURL: "https://hooks.slack.com/services/DO/NOT/REAL"
