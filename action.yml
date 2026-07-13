@@ -32,6 +32,8 @@ runs:
 
     - name: secrets
       shell: bash
+      env:
+        GH_CTX: ${{ inputs.GITHUB_CONTEXT }}
       run: |
         echo "INPUT_SLACKURL=${{ inputs.SLACKURL }}" >> $GITHUB_ENV
         echo "INPUT_GH_TOKEN=${{ inputs.GH_TOKEN }}" >> $GITHUB_ENV
@@ -40,7 +42,7 @@ runs:
         echo "INPUT_CONTENT=${{ inputs.CONTENT }}" >> $GITHUB_ENV
         echo "INPUT_TESTMODE=${{ inputs.TESTMODE }}" >> $GITHUB_ENV
         echo "INPUT_GITHUB_CONTEXT<<GITHUB_CONTEXT_EOF" >> $GITHUB_ENV
-        echo "${{ inputs.GITHUB_CONTEXT }}" >> $GITHUB_ENV
+        printenv GH_CTX >> $GITHUB_ENV
         echo "GITHUB_CONTEXT_EOF" >> $GITHUB_ENV
 
     - name: step 1
