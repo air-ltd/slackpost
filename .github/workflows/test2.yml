@@ -1,0 +1,32 @@
+#######################################################################
+#
+# FileName: slackpost-debug.yml
+# Author:   Jared Church
+#
+# Purpose:
+#   Minimal reproduction of the shell quoting bug in air-ltd/slackpost@v4
+#   action.yml. Demonstrates that toJson(github) breaks the PowerShell
+#   assignment due to unescaped double quotes in the JSON.
+#
+#######################################################################
+
+name: Slackpost Debug
+
+on:
+  workflow_dispatch:
+
+jobs:
+  debug:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
+
+    - name: Slack Post (reproduces the error)
+      uses: air-ltd/slackpost@4ba43b24b7b071ea4c2063ba39a34adb527e35b0 # v4
+      with:
+        CONTENT: "Debug test — this should fail with a shell quoting error"
+        SLACKURL: "https://hooks.slack.com/services/DO/NOT/REAL"
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_CONTEXT: ${{ toJson(github) }}
+        RUNNER: ${{ runner.environment }}
