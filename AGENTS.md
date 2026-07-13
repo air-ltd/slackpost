@@ -87,3 +87,7 @@ Only completed steps (non-null conclusion) are counted in the denominator. Pendi
 ## Versioning
 
 Releases are tagged (v1, v2, v3, v4, v5, ...). Consumers reference as `air-ltd/slackpost@v5`. The `main` branch is the development branch and also used directly in the test workflow for testing.
+
+## Project notes
+
+- `.project/todo.md` - Conversion plan from PowerShell to bash
