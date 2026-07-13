@@ -1,13 +1,21 @@
-name: Test
+name: Regression Test
 on:
   workflow_dispatch:
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     steps:
-      # - name: Checkout code
-      #   uses: actions/checkout@v4
+      - name: Secrets
+        uses: bitwarden/sm-action@27c0c9dcab679d7250dbab91227c85b49ffa5e0f # v3.0.0
+        with:
+          access_token: ${{ secrets.BW_ACCESS_TOKEN }}
+          secrets: |
+            dcb60857-1c1b-4749-b67c-b22b00730193 > SLACK_POST_URL
+
+
+      - name: Checkout code
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
 
       - name: set var
         shell: bash
@@ -28,31 +36,31 @@ jobs:
           echo "Env File: $($env:msg_file)"
 
       - name: Run custom PowerShell action
-        uses: air-ltd/slackpost@4-add-support-for-passing-file-with-content-for-the-slack-post
+        uses: air-ltd/slackpost@main
         with:
           CONTENT_FILE: ${{ env.msg_file }}
           CONTENT: ${{ env.message }}
-          SLACKURL: ${{ env.slack_url }}
+          SLACKURL: ${{ env.SLACK_POST_URL }}
           TESTMODE: true
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_CONTEXT: ${{ toJson(github) }}
           RUNNER: ${{ runner.environment }}
   
       - name: Run custom PowerShell action 2
-        uses: air-ltd/slackpost@4-add-support-for-passing-file-with-content-for-the-slack-post
+        uses: air-ltd/slackpost@main
         with:
           CONTENT: ${{ env.message }}
-          SLACKURL: ${{ env.slack_url }}
+          SLACKURL: ${{ env.SLACK_POST_URL }}
           TESTMODE: true
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_CONTEXT: ${{ toJson(github) }}
           RUNNER: ${{ runner.environment }}
   
       - name: Run custom PowerShell action 3
-        uses: air-ltd/slackpost@4-add-support-for-passing-file-with-content-for-the-slack-post
+        uses: air-ltd/slackpost@main
         with:
           CONTENT_FILE: ${{ env.msg_file }}
-          SLACKURL: ${{ env.slack_url }}
+          SLACKURL: ${{ env.SLACK_POST_URL }}
           TESTMODE: true
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_CONTEXT: ${{ toJson(github) }}
@@ -67,7 +75,7 @@ jobs:
         uses: air-ltd/slackpost@main
         with:
           CONTENT: "Single-quote context test"
-          SLACKURL: ${{ env.slack_url }}
+          SLACKURL: ${{ env.SLACK_POST_URL }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_CONTEXT: ${{ env.FAKE_CONTEXT }}
           RUNNER: ${{ runner.environment }}
