@@ -17,8 +17,6 @@ inputs:
   RUNNER:
     description: 'info about the runner'
 runs:
-  # using: 'docker'
-  # image: 'Dockerfile'
   using: 'composite'
   steps:
     - name: Checkout code

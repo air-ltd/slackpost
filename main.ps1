@@ -21,7 +21,6 @@ write-debug "Content: $($env:INPUT_CONTENT)"
 $message="$($env:INPUT_CONTENT)"
 $slackUrl=$env:INPUT_SLACKURL
 
-dir $env:INPUT_CONTENT_FILE
 if ( Test-Path $env:INPUT_CONTENT_FILE ) {
     if ( $message -ne "" ) {
         $message+="`n"
@@ -87,7 +86,7 @@ $jsonMessage=write-SlackMessageBody -logUrl $url -logUrlHtml $url2 -ActionName $
 if ( $env:INPUT_TESTMODE ) {
     $jsonMessage
 } else {
-    write-output "INPUT_TESTMODE is set"
+    write-output "Posting to Slack"
     $jsonMessage
     send-SlackMessage -jsonMessage $jsonMessage -slackUrl $slackUrl
 }

@@ -12,8 +12,8 @@ function send-SlackMessage() {
 
     $res=invoke-webrequest -method post -Headers $HEADER -Body $jsonMessage -Uri $slackUrl
     if ( $res.StatusCode -ne 200 ) {
-        throw "Slack Post Failed"
         $res
+        throw "Slack Post Failed"
     } else {
         write-output "Slack Post Succeeded"
     }
@@ -65,8 +65,6 @@ function write-SlackMessageBody() {
         }
     }
 
-
-    $MessageLimit=$Message.Substring(0, [Math]::Min(5, $Message.Length))
 
     $blocks=$(
         @{
