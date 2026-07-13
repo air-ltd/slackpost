@@ -85,10 +85,28 @@ jobs:
 
       - name: Post workflow summary to Slack
         if: always()
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          jobs_json=$(gh api -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" \
+            "/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/jobs")
+          passed=$(echo "$jobs_json" | jq '[.jobs[].conclusion] | map(select(. == "success")) | length')
+          failed=$(echo "$jobs_json" | jq '[.jobs[].conclusion] | map(select(. == "failure")) | length')
+          skipped=$(echo "$jobs_json" | jq '[.jobs[].conclusion] | map(select(. == "skipped")) | length')
+          total=$(echo "$jobs_json" | jq '.jobs | length')
+          summary="✅ ${passed} passed"
+          if [ "$failed" -gt 0 ]; then summary="${summary} / ❌ ${failed} failed"; fi
+          if [ "$skipped" -gt 0 ]; then summary="${summary} / ⏭ ${skipped} skipped"; fi
+          summary="${summary} (of ${total})"
+          echo "CONTENT=${summary}" >> "$GITHUB_ENV"
+
+      - name: Send summary to Slack
+        if: always()
         uses: air-ltd/slackpost@main
         with:
-          CONTENT: "Workflow ${{ github.workflow }} run #${{ github.run_number }} completed"
           SLACKURL: ${{ env.SLACK_POST_URL }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_CONTEXT: ${{ toJson(github) }}
           RUNNER: ${{ runner.environment }}
+          TESTMODE: false
