@@ -19,29 +19,25 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Checkout code
-      uses: actions/checkout@v6
-      with:
-        repository: air-ltd/slackpost
-        path: ./action-repo
-
     - name: secrets
       shell: bash
       env:
         GH_CTX: ${{ toJson(github) }}
       run: |
-        echo "INPUT_SLACKURL=${{ inputs.SLACKURL }}" >> $GITHUB_ENV
-        echo "INPUT_RUNNER=${{ inputs.RUNNER }}" >> $GITHUB_ENV
-        echo "INPUT_CONTENT_FILE=${{ inputs.CONTENT_FILE }}" >> $GITHUB_ENV
-        echo "INPUT_CONTENT=${{ inputs.CONTENT }}" >> $GITHUB_ENV
-        echo "INPUT_TESTMODE=${{ inputs.TESTMODE }}" >> $GITHUB_ENV
+        echo "INPUT_SLACKURL=\"${{ inputs.SLACKURL }}\"" >> $GITHUB_ENV
+        echo "INPUT_RUNNER=\"${{ inputs.RUNNER }}\"" >> $GITHUB_ENV
+        echo "INPUT_CONTENT_FILE=\"${{ inputs.CONTENT_FILE }}\"" >> $GITHUB_ENV
+        echo "INPUT_CONTENT=\"${{ inputs.CONTENT }}\"" >> $GITHUB_ENV
+        echo "INPUT_TESTMODE=\"${{ inputs.TESTMODE }}\"" >> $GITHUB_ENV
         echo "INPUT_GITHUB_CONTEXT<<GITHUB_CONTEXT_EOF" >> $GITHUB_ENV
         printenv GH_CTX >> $GITHUB_ENV
         echo "GITHUB_CONTEXT_EOF" >> $GITHUB_ENV
+        echo "::add-mask::${{ github.token }}"
+        echo "GH_TOKEN=${{ github.token }}" >> $GITHUB_ENV
 
     - name: step 1
       shell: pwsh
       run: |
         # echo "TEST: $env:INPUT_SLACKURL"
         # write-output "Test InFile: $($env:INPUT_CONTENT_FILE)"
-        ./action-repo/main.ps1
+        "${{ github.action_path }}/main.ps1"
