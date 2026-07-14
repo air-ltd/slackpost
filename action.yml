@@ -27,12 +27,13 @@ runs:
     - name: secrets
       shell: bash
       run: |
-        echo "INPUT_SLACKURL=${{ inputs.SLACKURL }}" >> $GITHUB_ENV
-        echo "INPUT_GH_TOKEN=${{ inputs.GH_TOKEN }}" >> $GITHUB_ENV
-        echo "INPUT_RUNNER=${{ inputs.RUNNER }}" >> $GITHUB_ENV
-        echo "INPUT_CONTENT_FILE=${{ inputs.CONTENT_FILE }}" >> $GITHUB_ENV
-        echo "INPUT_CONTENT=${{ inputs.CONTENT }}" >> $GITHUB_ENV
-        echo "INPUT_TESTMODE=${{ inputs.TESTMODE }}" >> $GITHUB_ENV
+        echo "INPUT_SLACKURL=\"${{ inputs.SLACKURL }}\"" >> $GITHUB_ENV
+        echo "::add-mask::${{ inputs.GH_TOKEN }}"
+        echo "INPUT_GH_TOKEN=\"${{ inputs.GH_TOKEN }}\"" >> $GITHUB_ENV
+        echo "INPUT_RUNNER=\"${{ inputs.RUNNER }}\"" >> $GITHUB_ENV
+        echo "INPUT_CONTENT_FILE=\"${{ inputs.CONTENT_FILE }}\"" >> $GITHUB_ENV
+        echo "INPUT_CONTENT=\"${{ inputs.CONTENT }}\"" >> $GITHUB_ENV
+        echo "INPUT_TESTMODE=\"${{ inputs.TESTMODE }}\"" >> $GITHUB_ENV
 
     - name: step 1
       shell: pwsh
@@ -40,4 +41,4 @@ runs:
         # echo "TEST: $env:INPUT_SLACKURL"
         # write-output "Test InFile: $($env:INPUT_CONTENT_FILE)"
         $env:INPUT_GITHUB_CONTEXT='${{ inputs.GITHUB_CONTEXT }}'
-        ./main.ps1
+        "${{ github.action_path }}/main.ps1"
