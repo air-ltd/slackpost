@@ -60,3 +60,26 @@ runs:
     - name: Slack Posting
       shell: pwsh
       run: "${{ github.action_path }}/src/main.ps1"
+
+    - name: Version Check
+      shell: pwsh
+      run: |
+        $ctx = $env:INPUT_GITHUB_CONTEXT | ConvertFrom-Json
+        $repo = $ctx.action_repository
+        $ref = $ctx.action_ref
+
+        $hash = (gh api "repos/$($repo)/commits?sha=$($ref)&per_page=1" | ConvertFrom-Json).sha
+        $hash_latest = (gh api "repos/$($repo)/commits?sha=main&per_page=1" | ConvertFrom-Json).sha
+
+        Write-Output "Action ref: $($ref)"
+        Write-Output "Current version: $($hash)"
+        Write-Output "Latest on main: $($hash_latest)"
+
+        if ( $hash -ne $hash_latest ) {
+          Write-Output "::warning::You are using $($repo)@${$ref} ($($hash.Substring(0,7))), but the latest version on main is $($hash_latest.Substring(0,7)). Consider updating."
+        } else {
+          Write-Output "You are using the latest version of $($repo)@main."
+        }
+
+
+### End of File
