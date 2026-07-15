@@ -23,6 +23,7 @@ A GitHub Action that posts Slack notifications with links to GitHub Actions work
 | `CONTENT` | No | Text to include in the Slack message |
 | `CONTENT_FILE` | No | Path to a file whose contents are included in the Slack message |
 | `TESTMODE` | No | Set to `'true'` (case insensitive) to output JSON without posting to Slack |
+| `SUPPRESS_VERSION_WARNING` | No | Set to `'true'` to suppress the version update warning |
 
 `GITHUB_TOKEN` is read from the environment (set via `env:` on the step). It is not an action input.
 

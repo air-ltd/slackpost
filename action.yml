@@ -16,6 +16,9 @@ inputs:
     required: false
   RUNNER:
     description: 'info about the runner'
+  SUPPRESS_VERSION_WARNING:
+    description: 'Set to true to suppress the version update warning'
+    required: false
 outputs:
   version_mismatch:
     description: 'Whether the action version is behind main'
@@ -55,6 +58,13 @@ runs:
             echo "INPUT_EOF"
           } >> $GITHUB_ENV
         fi
+        if [ -n "${{ inputs.SUPPRESS_VERSION_WARNING }}" ]; then
+          {
+            echo "INPUT_SUPPRESS_VERSION_WARNING<<INPUT_EOF"
+            echo "${{ inputs.SUPPRESS_VERSION_WARNING }}"
+            echo "INPUT_EOF"
+          } >> $GITHUB_ENV
+        fi
         echo "INPUT_GITHUB_CONTEXT<<GITHUB_CONTEXT_EOF" >> $GITHUB_ENV
         printenv GH_CTX >> $GITHUB_ENV
         echo "GITHUB_CONTEXT_EOF" >> $GITHUB_ENV
@@ -67,6 +77,7 @@ runs:
 
     - name: Version Check
       id: version-check
+      if: ${{ inputs.SUPPRESS_VERSION_WARNING != 'true' }}
       shell: pwsh
       run: |
         $ctx = $env:INPUT_GITHUB_CONTEXT | ConvertFrom-Json
