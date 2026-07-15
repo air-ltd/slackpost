@@ -69,6 +69,16 @@ jobs:
           TESTMODE: true
           RUNNER: ${{ runner.environment }}
 
+      - name: Version check test (pinned old hash)
+        uses: air-ltd/slackpost@27ff1de63eac13befd17de864dcc1bc4996dfe19
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          CONTENT: "version check test"
+          SLACKURL: ${{ env.SLACK_POST_URL }}
+          TESTMODE: true
+          RUNNER: ${{ runner.environment }}
+
       - name: Post workflow summary to Slack
         if: always()
         shell: bash
