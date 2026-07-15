@@ -71,7 +71,7 @@ jobs:
 
       - name: Version check test (pinned old hash)
         id: pinned-version-test
-        uses: air-ltd/slackpost@27ff1de63eac13befd17de864dcc1bc4996dfe19
+        uses: air-ltd/slackpost@ed87e7f2139a006b1954ef5de1a6fd690efda401
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
