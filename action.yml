@@ -57,27 +57,6 @@ runs:
         echo "::add-mask::${{ github.token }}"
         echo "GH_TOKEN=${{ github.token }}" >> $GITHUB_ENV
 
-    - name: Test action_path git repo
-      shell: bash
-      run: |
-        ACTION_PATH="${{ github.action_path }}"
-        echo "ACTION_PATH: $ACTION_PATH"
-        echo "Contents:"
-        ls -la "$ACTION_PATH"
-        if [ -d "$ACTION_PATH/.git" ]; then
-          echo "Is a git repository"
-          echo "HEAD:"
-          git -C "$ACTION_PATH" rev-parse HEAD
-          echo "Remote URL:"
-          git -C "$ACTION_PATH" remote get-url origin
-          echo "Branch:"
-          git -C "$ACTION_PATH" branch -a
-          echo "Log (last 5):"
-          git -C "$ACTION_PATH" log --oneline -5
-        else
-          echo "Not a git repository (no .git directory)"
-        fi
-
-    - name: step 1
+    - name: Slack Posting
       shell: pwsh
       run: "${{ github.action_path }}/src/main.ps1"
