@@ -10,13 +10,13 @@ The action is a **composite action** (not Docker). It has three steps in `action
 
 1. **Checkout** - Clones the `air-ltd/slackpost` repo itself into `./action-repo`
 2. **secrets** - Bash step that maps all inputs to environment variables (prefixed `INPUT_`) and writes `GITHUB_CONTEXT` to `$GITHUB_ENV` using a heredoc
-3. **step 1** - Runs `./action-repo/main.ps1` in PowerShell
+3. **step 1** - Runs `./action-repo/src/main.ps1` in PowerShell
 
 ### Key files
 
 - `action.yml` - Composite action definition with input declarations
-- `main.ps1` - Main entry point. Queries GitHub API for job info, builds Slack message body, posts to Slack
-- `Send-SlackMessage.ps1` - Helper functions: `send-SlackMessage`, `split-message`, `write-SlackMessageBody`
+- `src/main.ps1` - Main entry point. Queries GitHub API for job info, builds Slack message body, posts to Slack
+- `src/Send-SlackMessage.ps1` - Helper functions: `send-SlackMessage`, `split-message`, `write-SlackMessageBody`
 - `.github/workflows/test.yml` - Regression test workflow that runs on push to main and manual dispatch
 
 ## Context passing (critical)

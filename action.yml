@@ -37,7 +37,4 @@ runs:
 
     - name: step 1
       shell: pwsh
-      run: |
-        # echo "TEST: $env:INPUT_SLACKURL"
-        # write-output "Test InFile: $($env:INPUT_CONTENT_FILE)"
-        "${{ github.action_path }}/main.ps1"
+      run: "${{ github.action_path }}/src/main.ps1"
