@@ -16,6 +16,10 @@ inputs:
     required: false
   RUNNER:
     description: 'info about the runner'
+outputs:
+  version_mismatch:
+    description: 'Whether the action version is behind main'
+    value: ${{ steps.version-check.outputs.version_mismatch }}
 runs:
   using: 'composite'
   steps:
@@ -62,6 +66,7 @@ runs:
       run: "${{ github.action_path }}/src/main.ps1"
 
     - name: Version Check
+      id: version-check
       shell: pwsh
       run: |
         $ctx = $env:INPUT_GITHUB_CONTEXT | ConvertFrom-Json
@@ -76,9 +81,11 @@ runs:
         Write-Output "Latest on main: $($hash_latest)"
 
         if ( $hash -ne $hash_latest ) {
-          Write-Output "::warning::You are using $($repo)@${$ref} ($($hash.Substring(0,7))), but the latest version on main is $($hash_latest.Substring(0,7)). Consider updating."
+          Write-Output "::warning::You are using $($repo)@$($ref) ($($hash.Substring(0,7))), but the latest version on main is $($hash_latest.Substring(0,7)). Consider updating."
+          "version_mismatch=true" | Out-File -Append -FilePath $env:GITHUB_OUTPUT
         } else {
           Write-Output "You are using the latest version of $($repo)@main."
+          "version_mismatch=false" | Out-File -Append -FilePath $env:GITHUB_OUTPUT
         }
 
 

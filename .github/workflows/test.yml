@@ -70,6 +70,7 @@ jobs:
           RUNNER: ${{ runner.environment }}
 
       - name: Version check test (pinned old hash)
+        id: pinned-version-test
         uses: air-ltd/slackpost@27ff1de63eac13befd17de864dcc1bc4996dfe19
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -78,6 +79,15 @@ jobs:
           SLACKURL: ${{ env.SLACK_POST_URL }}
           TESTMODE: true
           RUNNER: ${{ runner.environment }}
+
+      - name: Verify version warning was produced
+        shell: bash
+        run: |
+          if [ "${{ steps.pinned-version-test.outputs.version_mismatch }}" != "true" ]; then
+            echo "::error::Expected version_mismatch=true but got '${{ steps.pinned-version-test.outputs.version_mismatch }}'"
+            exit 1
+          fi
+          echo "Version warning confirmed: pinned hash is behind main"
 
       - name: Post workflow summary to Slack
         if: always()
