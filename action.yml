@@ -32,7 +32,9 @@ runs:
         echo "INPUT_RUNNER=\"${{ inputs.RUNNER }}\"" >> $GITHUB_ENV
         echo "INPUT_CONTENT_FILE=\"${{ inputs.CONTENT_FILE }}\"" >> $GITHUB_ENV
         echo "INPUT_CONTENT=\"${{ inputs.CONTENT }}\"" >> $GITHUB_ENV
-        echo "INPUT_TESTMODE=\"${{ inputs.TESTMODE }}\"" >> $GITHUB_ENV
+        if [ -n "${{ inputs.TESTMODE }}" ]; then
+          echo "INPUT_TESTMODE=\"${{ inputs.TESTMODE }}\"" >> $GITHUB_ENV
+        fi
         echo "INPUT_GITHUB_CONTEXT<<GITHUB_CONTEXT_EOF" >> $GITHUB_ENV
         printenv GH_CTX >> $GITHUB_ENV
         echo "GITHUB_CONTEXT_EOF" >> $GITHUB_ENV
