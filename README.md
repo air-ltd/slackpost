@@ -22,7 +22,8 @@ A GitHub Action that posts Slack notifications with links to GitHub Actions work
 | `RUNNER` | No | `${{ runner.environment }}` (self-hosted vs github-hosted) |
 | `CONTENT` | No | Text to include in the Slack message |
 | `CONTENT_FILE` | No | Path to a file whose contents are included in the Slack message |
-| `TESTMODE` | No | If set, outputs the JSON message body without posting to Slack |
+| `TESTMODE` | No | Set to `'true'` (case insensitive) to output JSON without posting to Slack |
+| `SUPPRESS_VERSION_WARNING` | No | Set to `'true'` to suppress the update warning when a newer version is available |
 
 `GITHUB_TOKEN` is read from the environment (set via `env:` on the step). It is not an action input.
 
@@ -38,12 +39,14 @@ The Slack message includes:
 
 The action reads the GitHub context (`${{ github }}`) automatically and queries the API for job details to build log URLs. Special characters (single quotes, backticks) in event payloads are handled safely via `env:` + `printenv` in the composite action, avoiding shell interpretation issues.
 
+By default, the action checks if a newer version is available on the same ref and emits a warning if so. Set `SUPPRESS_VERSION_WARNING: 'true'` to disable this check.
+
 ## Testing
 
 The test workflow (`.github/workflows/test.yml`) runs on push to `main` and manual dispatch. It:
 
 1. Tests `CONTENT_FILE`, `CONTENT`, and combined content in TESTMODE
-2. Computes pass/fail step counts and posts a summary to Slack
+2. Computes pass/fail step counts and posts a summary to Slack (TESTMODE: false)
 
 ## Secrets
 

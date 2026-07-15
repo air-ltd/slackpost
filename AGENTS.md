@@ -40,7 +40,7 @@ This completely bypasses shell string interpretation. This approach must be pres
 
 ## TESTMODE behavior
 
-When `TESTMODE` is set (any value), `main.ps1` outputs the JSON message body but does **not** post to Slack. When `TESTMODE` is empty/unset, it posts to Slack. Do not pass `TESTMODE: false` -- omit it entirely to post for real.
+When `TESTMODE` is set to `'true'` (case insensitive), `main.ps1` outputs the JSON message body but does **not** post to Slack. When `TESTMODE` is empty/unset or any other value, it posts to Slack.
 
 ## `main.ps1` details
 

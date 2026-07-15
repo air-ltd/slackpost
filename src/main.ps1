@@ -83,7 +83,7 @@ write-output "HTML Logs: $($url2)"
 
 $jsonMessage=write-SlackMessageBody -logUrl $url -logUrlHtml $url2 -ActionName $actionName -Message $message
 
-if ( $env:INPUT_TESTMODE ) {
+if ( $env:INPUT_TESTMODE -eq 'true' ) {
     write-output "Test Mode - not posting to Slack"
     $jsonMessage
 } else {

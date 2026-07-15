@@ -96,4 +96,5 @@ jobs:
         with:
           CONTENT: ${{ env.CONTENT }}
           SLACKURL: ${{ env.SLACK_POST_URL }}
+          TESTMODE: false
           RUNNER: ${{ runner.environment }}
