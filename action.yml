@@ -28,12 +28,32 @@ runs:
       env:
         GH_CTX: ${{ toJson(github) }}
       run: |
-        echo "INPUT_SLACKURL=\"${{ inputs.SLACKURL }}\"" >> $GITHUB_ENV
-        echo "INPUT_RUNNER=\"${{ inputs.RUNNER }}\"" >> $GITHUB_ENV
-        echo "INPUT_CONTENT_FILE=\"${{ inputs.CONTENT_FILE }}\"" >> $GITHUB_ENV
-        echo "INPUT_CONTENT=\"${{ inputs.CONTENT }}\"" >> $GITHUB_ENV
+        {
+          echo "INPUT_SLACKURL<<INPUT_EOF"
+          echo "${{ inputs.SLACKURL }}"
+          echo "INPUT_EOF"
+        } >> $GITHUB_ENV
+        {
+          echo "INPUT_RUNNER<<INPUT_EOF"
+          echo "${{ inputs.RUNNER }}"
+          echo "INPUT_EOF"
+        } >> $GITHUB_ENV
+        {
+          echo "INPUT_CONTENT_FILE<<INPUT_EOF"
+          echo "${{ inputs.CONTENT_FILE }}"
+          echo "INPUT_EOF"
+        } >> $GITHUB_ENV
+        {
+          echo "INPUT_CONTENT<<INPUT_EOF"
+          echo "${{ inputs.CONTENT }}"
+          echo "INPUT_EOF"
+        } >> $GITHUB_ENV
         if [ -n "${{ inputs.TESTMODE }}" ]; then
-          echo "INPUT_TESTMODE=\"${{ inputs.TESTMODE }}\"" >> $GITHUB_ENV
+          {
+            echo "INPUT_TESTMODE<<INPUT_EOF"
+            echo "${{ inputs.TESTMODE }}"
+            echo "INPUT_EOF"
+          } >> $GITHUB_ENV
         fi
         echo "INPUT_GITHUB_CONTEXT<<GITHUB_CONTEXT_EOF" >> $GITHUB_ENV
         printenv GH_CTX >> $GITHUB_ENV
