@@ -6,7 +6,7 @@ A GitHub Action that posts Slack notifications with links to GitHub Actions work
 
 ```yaml
 - name: Notify Slack
-  uses: air-ltd/slackpost@v5
+  uses: air-ltd/slackpost@v9
   env:
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   with:
@@ -23,7 +23,6 @@ A GitHub Action that posts Slack notifications with links to GitHub Actions work
 | `CONTENT` | No | Text to include in the Slack message |
 | `CONTENT_FILE` | No | Path to a file whose contents are included in the Slack message |
 | `TESTMODE` | No | Set to `'true'` (case insensitive) to output JSON without posting to Slack |
-| `SUPPRESS_VERSION_WARNING` | No | Set to `'true'` to suppress the update warning when a newer version is available |
 
 `GITHUB_TOKEN` is read from the environment (set via `env:` on the step). It is not an action input.
 
@@ -39,14 +38,15 @@ The Slack message includes:
 
 The action reads the GitHub context (`${{ github }}`) automatically and queries the API for job details to build log URLs. Special characters (single quotes, backticks) in event payloads are handled safely via `env:` + `printenv` in the composite action, avoiding shell interpretation issues.
 
-By default, the action checks if a newer version is available on the same ref and emits a warning if so. Set `SUPPRESS_VERSION_WARNING: 'true'` to disable this check.
+A built-in version check compares the pinned version against the latest commit on `main` and emits a `::warning::` annotation if behind. This runs automatically on every invocation.
 
 ## Testing
 
 The test workflow (`.github/workflows/test.yml`) runs on push to `main` and manual dispatch. It:
 
 1. Tests `CONTENT_FILE`, `CONTENT`, and combined content in TESTMODE
-2. Computes pass/fail step counts and posts a summary to Slack (TESTMODE: false)
+2. Tests that the version check produces a warning when pinned to an older hash
+3. Computes pass/fail step counts and posts a summary to Slack (TESTMODE: false)
 
 ## Secrets
 
@@ -56,4 +56,4 @@ The test workflow (`.github/workflows/test.yml`) runs on push to `main` and manu
 
 ## Versioning
 
-Releases are tagged (v1, v2, v3, v4, v5, ...). Reference as `air-ltd/slackpost@v5`.
+Releases are tagged (v1, v2, v3, ...). Reference as `air-ltd/slackpost@v9`.
