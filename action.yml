@@ -16,12 +16,6 @@ inputs:
     required: false
   RUNNER:
     description: 'info about the runner'
-  ACTION_REPOSITORY:
-    description: 'The owner/repo of this action (e.g. air-ltd/slackpost) - required for version check'
-    required: false
-  ACTION_REF:
-    description: 'The tag or branch this action is referenced at (e.g. v5) - required for version check'
-    required: false
   SUPPRESS_VERSION_WARNING:
     description: 'Set to true to suppress the warning when a newer version of this action is available'
     required: false
@@ -39,8 +33,6 @@ runs:
         echo "INPUT_CONTENT_FILE=\"${{ inputs.CONTENT_FILE }}\"" >> $GITHUB_ENV
         echo "INPUT_CONTENT=\"${{ inputs.CONTENT }}\"" >> $GITHUB_ENV
         echo "INPUT_TESTMODE=\"${{ inputs.TESTMODE }}\"" >> $GITHUB_ENV
-        echo "INPUT_ACTION_REPOSITORY=\"${{ inputs.ACTION_REPOSITORY }}\"" >> $GITHUB_ENV
-        echo "INPUT_ACTION_REF=\"${{ inputs.ACTION_REF }}\"" >> $GITHUB_ENV
         echo "INPUT_GITHUB_CONTEXT<<GITHUB_CONTEXT_EOF" >> $GITHUB_ENV
         printenv GH_CTX >> $GITHUB_ENV
         echo "GITHUB_CONTEXT_EOF" >> $GITHUB_ENV
@@ -53,17 +45,37 @@ runs:
       env:
         GH_TOKEN: ${{ github.token }}
       run: |
-        REPO="$INPUT_ACTION_REPOSITORY"
-        REF="$INPUT_ACTION_REF"
+        ACTION_PATH="${{ github.action_path }}"
 
-        if [ -z "$REPO" ] || [ -z "$REF" ]; then
-          echo "ACTION_REPOSITORY and ACTION_REF inputs not set, skipping version check."
+        REMOTE_URL=$(git -C "$ACTION_PATH" remote get-url origin 2>/dev/null)
+        if [ -z "$REMOTE_URL" ]; then
+          echo "Unable to determine action remote URL, skipping version check."
           exit 0
         fi
 
-        CURRENT_SHA=$(git -C "${{ github.action_path }}" rev-parse HEAD 2>/dev/null)
+        REPO=$(echo "$REMOTE_URL" | sed -E 's#(.*github\.com[/:])##; s#\.git$##')
+        if [ -z "$REPO" ]; then
+          echo "Unable to parse repository from remote URL, skipping version check."
+          exit 0
+        fi
+
+        CURRENT_SHA=$(git -C "$ACTION_PATH" rev-parse HEAD 2>/dev/null)
         if [ -z "$CURRENT_SHA" ]; then
           echo "Unable to determine current action commit, skipping version check."
+          exit 0
+        fi
+
+        REF=""
+        REF=$(git -C "$ACTION_PATH" symbolic-ref --short HEAD 2>/dev/null)
+        if [ -z "$REF" ]; then
+          REF=$(git -C "$ACTION_PATH" describe --tags --exact-match HEAD 2>/dev/null)
+        fi
+        if [ -z "$REF" ]; then
+          REF=$(gh api "repos/${REPO}/commits/${CURRENT_SHA}/branches-where-head" --jq '.[0].name' 2>/dev/null)
+        fi
+
+        if [ -z "$REF" ]; then
+          echo "Unable to determine action ref, skipping version check."
           exit 0
         fi
 
