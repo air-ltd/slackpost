@@ -45,37 +45,17 @@ runs:
       env:
         GH_TOKEN: ${{ github.token }}
       run: |
-        ACTION_PATH="${{ github.action_path }}"
+        REPO=$(echo "$INPUT_GITHUB_CONTEXT" | jq -r '.action_repository // .action // empty')
+        REF=$(echo "$INPUT_GITHUB_CONTEXT" | jq -r '.action_ref // empty')
 
-        REMOTE_URL=$(git -C "$ACTION_PATH" remote get-url origin 2>/dev/null)
-        if [ -z "$REMOTE_URL" ]; then
-          echo "Unable to determine action remote URL, skipping version check."
+        if [ -z "$REPO" ] || [ -z "$REF" ]; then
+          echo "Unable to determine action repository or ref from github context, skipping version check."
           exit 0
         fi
 
-        REPO=$(echo "$REMOTE_URL" | sed -E 's#(.*github\.com[/:])##; s#\.git$##')
-        if [ -z "$REPO" ]; then
-          echo "Unable to parse repository from remote URL, skipping version check."
-          exit 0
-        fi
-
-        CURRENT_SHA=$(git -C "$ACTION_PATH" rev-parse HEAD 2>/dev/null)
+        CURRENT_SHA=$(echo "$INPUT_GITHUB_CONTEXT" | jq -r '.sha // empty')
         if [ -z "$CURRENT_SHA" ]; then
-          echo "Unable to determine current action commit, skipping version check."
-          exit 0
-        fi
-
-        REF=""
-        REF=$(git -C "$ACTION_PATH" symbolic-ref --short HEAD 2>/dev/null)
-        if [ -z "$REF" ]; then
-          REF=$(git -C "$ACTION_PATH" describe --tags --exact-match HEAD 2>/dev/null)
-        fi
-        if [ -z "$REF" ]; then
-          REF=$(gh api "repos/${REPO}/commits/${CURRENT_SHA}/branches-where-head" --jq '.[0].name' 2>/dev/null)
-        fi
-
-        if [ -z "$REF" ]; then
-          echo "Unable to determine action ref, skipping version check."
+          echo "Unable to determine current commit SHA, skipping version check."
           exit 0
         fi
 
