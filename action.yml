@@ -61,11 +61,9 @@ runs:
         echo "::add-mask::${{ github.token }}"
         echo "GH_TOKEN=${{ github.token }}" >> $GITHUB_ENV
 
-    - name: Check for action updates
+    - name: Ensure jq
       if: ${{ inputs.SUPPRESS_VERSION_WARNING != 'true' }}
       shell: bash
-      env:
-        GH_TOKEN: ${{ github.token }}
       run: |
         if ! command -v jq &>/dev/null; then
           echo "jq is not installed, attempting to install..."
@@ -75,25 +73,50 @@ runs:
             HOMEBREW_NO_AUTO_UPDATE=1 brew install jq
           else
             echo "Unable to install jq, skipping version check."
-            exit 0
           fi
+        fi
+
+    - name: Check for action updates
+      if: ${{ inputs.SUPPRESS_VERSION_WARNING != 'true' }}
+      shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        if ! command -v jq &>/dev/null; then
+          echo "jq not available, skipping version check."
+          exit 0
         fi
 
         REPO=$(echo "$INPUT_GITHUB_CONTEXT" | jq -r '.action_repository // .action // empty')
         REF=$(echo "$INPUT_GITHUB_CONTEXT" | jq -r '.action_ref // empty')
+        ACTION_PATH=$(echo "$INPUT_GITHUB_CONTEXT" | jq -r '.action_path // empty')
 
         if [ -z "$REPO" ] || [ -z "$REF" ]; then
           echo "Unable to determine action repository or ref from github context, skipping version check."
           exit 0
         fi
 
-        CURRENT_SHA=$(echo "$INPUT_GITHUB_CONTEXT" | jq -r '.sha // empty')
+        CURRENT_SHA=""
+        if [ -n "$ACTION_PATH" ] && [ -d "$ACTION_PATH/.git" ]; then
+          CURRENT_SHA=$(git -C "$ACTION_PATH" rev-parse HEAD 2>/dev/null)
+        fi
+        if [ -z "$CURRENT_SHA" ] && echo "$REF" | grep -qE '^[0-9a-f]{40}$'; then
+          CURRENT_SHA="$REF"
+        fi
+
         if [ -z "$CURRENT_SHA" ]; then
-          echo "Unable to determine current commit SHA, skipping version check."
+          echo "Unable to determine current action commit SHA, skipping version check."
           exit 0
         fi
 
-        LATEST_SHA=$(gh api "repos/${REPO}/commits?sha=${REF}&per_page=1" --jq '.[0].sha' 2>/dev/null)
+        LATEST_SHA=$(gh api "repos/${REPO}/git/ref/heads/${REF}" --jq '.object.sha' 2>/dev/null)
+        if [ -z "$LATEST_SHA" ]; then
+          LATEST_SHA=$(gh api "repos/${REPO}/git/ref/tags/${REF}" --jq '.object.sha' 2>/dev/null)
+        fi
+        if [ -z "$LATEST_SHA" ]; then
+          LATEST_SHA=$(gh api "repos/${REPO}/commits?sha=${REF}&per_page=1" --jq '.[0].sha' 2>/dev/null)
+        fi
+
         if [ -z "$LATEST_SHA" ]; then
           echo "Unable to fetch latest commit for ${REPO}@${REF}, skipping version check."
           exit 0
